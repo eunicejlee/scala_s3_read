@@ -1,7 +1,5 @@
-package scalass3read
+package scalas3read
 
-import com.amazonaws.services.s3.AmazonS3Client
-import com.amazonaws.auth.BasicAWSCredentials
 import org.apache.spark.sql.SparkSession
 
 object Runner {
@@ -11,7 +9,6 @@ object Runner {
       .appName("scalas3read")
       .master("local[4]")
       .getOrCreate()
-
 
     // Reference: https://sparkbyexamples.com/spark/spark-read-text-file-from-s3/#s3-dependency
     val key = System.getenv(("DAS_KEY_ID"))
@@ -24,7 +21,7 @@ object Runner {
     import spark.implicits._
     spark.sparkContext.setLogLevel("WARN")
 
-    val s3DataMaybe = spark.sparkContext.textFile("s3a://usf-210104-big-data/twitterstream/tweetstream-1613536993819-1")
-    s3DataMaybe.collect.foreach(println)
+    val s3DataMaybe = spark.read.text("s3a://usf-210104-big-data/twitterstream/tweetstream-1613536993819-1")
+    s3DataMaybe.show()
   }
 }
